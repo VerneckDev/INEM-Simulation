@@ -8,11 +8,11 @@ A console-based emergency dispatch and management system inspired by **INEM** (I
  
 ```
 INEM_SOS/
-├── Main.java        # Entry point, menus, game loop, file I/O
+├── Main.java        # Entry point, menus, main loop, file I/O
 └── DataBase.java    # Data models (Worker, Emergency, Ambulance, Hospital, etc.)
 ```
  
-### Persistent Data Files (auto-generated at runtime)
+### Persistent Data Files (auto-generated at runtime, in the current working directory)
  
 | File             | Contents                          |
 |------------------|-----------------------------------|
@@ -30,7 +30,9 @@ All files use Java's **object serialization** (`ObjectOutputStream` / `ObjectInp
  
 ## How to Compile & Run
  
-**Requirements:** Java 9+
+**Requirements:** Java 16+ (uses pattern matching for `instanceof` and `String.repeat()`)
+ 
+From the `INEM-Simulation/` folder:
  
 ```bash
 # Compile
@@ -70,7 +72,7 @@ Manages the system's resources.
 | 7      | List all hospitals and beds     |
 | 8      | Exit to main menu               |
  
-> Worker emails must end in `@inem.pt`. The ADMIN account cannot be deleted.
+> Worker emails must contain `@inem.pt`. The ADMIN account cannot be deleted.
  
 ---
  
@@ -108,7 +110,7 @@ New Emergency
                                              └─ Resources freed ──► ONGOING ──► CONCLUDED
 ```
  
-When an ongoing emergency is resolved, its ambulance is automatically freed (marked available again).
+When an ongoing emergency is resolved, its ambulance is automatically freed (marked available again). The hospital bed is not released: beds are only added back manually by workers (option 6).
  
 ---
  
@@ -127,7 +129,7 @@ distance(lat1, lon1, lat2, lon2)  // Returns km between two points
 | # | Hospital                                                              |
 |---|-----------------------------------------------------------------------|
 | 1 | Centro Hospitalar e Universitário de Coimbra – Polo Hospital Geral Covões |
-| 2 | Centro Hospitalar e Universitário de Coimbra – Polo HUC               |
+| 2 | Centro Hospitalar e Universitário de Coimbra – Polo Hospitais da Universidade de Coimbra (HUC) |
 | 3 | Hospital da Luz Coimbra                                               |
 | 4 | Hospital CUF Coimbra                                                  |
  
@@ -142,7 +144,7 @@ A single base class with **5 inner static subclasses**, all `Serializable`:
 | Class          | Represents         | Key Fields                                        |
 |----------------|--------------------|---------------------------------------------------|
 | `Worker`       | Staff account      | name, email, password                             |
-| `Em`           | Emergency record   | description, GPS coords, patient name, health no., timestamp, status, hospital, ambulance |
+| `Em`           | Emergency record   | worker, description, GPS coords, patient name, health no., timestamp, status, hospital, ambulance |
 | `Amb`          | Ambulance          | plate, GPS coords, availability status            |
 | `Hosp`         | Hospital           | name, GPS coords, available beds                  |
 | `HAem`         | Assignment record  | hospital name, ambulance plate (linked to an `Em`)|
@@ -164,4 +166,4 @@ A single base class with **5 inner static subclasses**, all `Serializable`:
 
 **João Pedro Verneck** — [@VerneckDev](https://github.com/VerneckDev)
 
-**João Vitor Andrade** — [@Jonhi7139 ](https://github.com/Jonhi7139 )
+**João Vitor Andrade** — [@Jonhi7139](https://github.com/Jonhi7139)
